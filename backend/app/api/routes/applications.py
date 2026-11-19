@@ -1,16 +1,24 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, status
 
 from app.api.schemas.applications import (
     CreditApplicationRequest,
     RiskAssessmentResponse,
     SubmitApplicationResponse,
 )
-from app.application.use_cases.submit_application import SubmitApplication
+from app.application.use_cases.submit_application import (
+    DuplicateApplicationError,
+    SubmitApplication,
+)
 from app.domain.application.models import CreditApplication
+from app.infrastructure.persistence.in_memory import (
+    InMemoryApplicationRepository
+)
 from app.infrastructure.risk.mock import MockRiskService
 
 
 router = APIRouter(prefix="/applications", tags=["applications"])
+
+application_repository = InMemoryApplicationRepository()
 
 
 @router.post("", response_model=SubmitApplicationResponse)
@@ -37,9 +45,16 @@ def submit_application(
 
     use_case = SubmitApplication(
         risk_service=MockRiskService(),
+        application_repository=application_repository,
     )
 
-    result = use_case.execute(application)
+    try:
+        result = use_case.execute(application)
+    except DuplicateApplicationError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=str(exc),
+        ) from exc
 
     return SubmitApplicationResponse(
         application_id=result.application.application_id,

@@ -56,3 +56,23 @@ def test_submit_application_rejects_invalid_requested_amount() -> None:
     body = response.json()
 
     assert body["detail"][0]["loc"] == ["body", "requested_amount"]
+
+def test_submit_application_returns_conflict_for_duplicate() -> None:
+    payload = build_application_payload()
+    payload["application_id"] = "APP-DUPLICATE-001"
+
+    first_response = client.post(
+        "/applications",
+        json=payload,
+    )
+
+    second_response = client.post(
+        "/applications",
+        json=payload,
+    )
+
+    assert first_response.status_code == 200
+    assert second_response.status_code == 409
+    assert second_response.json() == {
+        "detail": "application APP-DUPLICATE-001 already exists"
+    }

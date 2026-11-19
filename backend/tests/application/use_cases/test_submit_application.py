@@ -1,9 +1,16 @@
+import pytest
 from datetime import datetime, timezone
 from decimal import Decimal
 
-from app.application.use_cases.submit_application import SubmitApplication
+from app.application.use_cases.submit_application import (
+    DuplicateApplicationError,
+    SubmitApplication,
+)
 from app.domain.application.models import CreditApplication
 from app.domain.risk.models import RiskAssessment, RiskLevel
+from app.infrastructure.persistence.in_memory import (
+    InMemoryApplicationRepository,
+)
 
 
 class FakeRiskService:
@@ -45,18 +52,40 @@ def build_credit_application() -> CreditApplication:
 
 def test_submit_application_uses_risk_service_and_returns_assessment() -> None:
     application = build_credit_application()
+
     risk_service = FakeRiskService()
+    repository = InMemoryApplicationRepository()
 
     use_case = SubmitApplication(
         risk_service=risk_service,
+        application_repository=repository,
     )
 
     result = use_case.execute(application)
 
     assert risk_service.received_application is application
-
     assert result.application is application
     assert result.risk_assessment.application_id == "APP-0001"
     assert result.risk_assessment.risk_score == 0.42
     assert result.risk_assessment.risk_level is RiskLevel.LOW
     assert result.risk_assessment.assessment_source == "fake"
+
+
+def test_submit_application_rejects_duplicate_application() -> None:
+    application = build_credit_application()
+
+    risk_service = FakeRiskService()
+    repository = InMemoryApplicationRepository()
+
+    use_case = SubmitApplication(
+        risk_service=risk_service,
+        application_repository=repository,
+    )
+
+    use_case.execute(application)
+
+    with pytest.raises(
+        DuplicateApplicationError,
+        match="application APP-0001 already exists",
+    ):
+        use_case.execute(application)
