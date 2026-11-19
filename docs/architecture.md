@@ -1,8 +1,8 @@
-# NovaCredit - Software Architecture
+# CaseVerity - Software Architecture
 
 ## Purpose
 
-This document defines the software architecture of NovaCredit, including system responsibilities, dependency boundaries, communication patterns, and deployment boundaries.
+This document defines the software architecture of CaseVerity, including system responsibilities, dependency boundaries, communication patterns, and deployment boundaries.
 
 The architecture should allow the system to evolve without coupling core business behavior to frameworks, external providers, infrastructure, or presentation technologies.
 
@@ -10,7 +10,7 @@ The architecture should allow the system to evolve without coupling core busines
 
 ## Architectural Goal
 
-NovaCredit should be:
+CaseVerity should be:
 
 - maintainable,
 - modular,
@@ -25,7 +25,7 @@ The architecture should favor stable domain concepts and explicit contracts over
 
 ## Core Dependency Rule
 
-Dependencies should point toward the NovaCredit domain.
+Dependencies should point toward the CaseVerity domain.
 
 The core business rules must not depend directly on:
 
@@ -70,7 +70,7 @@ Inner layers must not depend on outer layers.
 
 ### Domain
 
-Owns NovaCredit's core business concepts and rules.
+Owns CaseVerity's core business concepts and rules.
 
 Examples:
 
@@ -151,7 +151,7 @@ The frontend may:
 - display workflow state,
 - present errors and results.
 
-The frontend must not define NovaCredit business rules or directly mutate business state.
+The frontend must not define CaseVerity business rules or directly mutate business state.
 
 ---
 
@@ -192,7 +192,7 @@ This allows implementations to be replaced without changing the core workflow.
 
 ## Primary Principle
 
-NovaCredit architecture should be organized around stable system responsibilities rather than individual scenarios.
+CaseVerity architecture should be organized around stable system responsibilities rather than individual scenarios.
 
 New scenarios should preferably be supported through:
 

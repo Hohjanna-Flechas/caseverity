@@ -1,10 +1,10 @@
-# NovaCredit - External Data Mapping
+# CaseVerity - External Data Mapping
 
 ## Purpose
 
-This document defines how attributes from the South German Credit dataset may be used by NovaCredit.
+This document defines how attributes from the South German Credit dataset may be used by CaseVerity.
 
-The external dataset schema must not become the NovaCredit domain model directly.
+The external dataset schema must not become the CaseVerity domain model directly.
 
 Source-specific fields are translated through an adapter into model-facing representations, while the product domain remains independently defined.
 
@@ -15,15 +15,15 @@ Source-specific fields are translated through an adapter into model-facing repre
 Each source attribute is classified as one of:
 
 - **Model Candidate**: may be considered as an input to the demonstration risk model.
-- **Domain Candidate**: represents a concept that may also exist in NovaCredit's runtime application domain.
-- **Excluded**: intentionally not used by NovaCredit.
+- **Domain Candidate**: represents a concept that may also exist in CaseVerity's runtime application domain.
+- **Excluded**: intentionally not used by CaseVerity.
 - **Training Target**: used only when training/evaluating the model and never supplied as runtime input.
 
 ---
 
 ## Source Mapping
 
-| Source Variable | NovaCredit Concept | Classification | Initial Decision |
+| Source Variable | CaseVerity Concept | Classification | Initial Decision |
 |---|---|---|---|
 | `status` | checking account status | Model Candidate | Keep for model experimentation |
 | `duration` | credit duration | Domain + Model Candidate | Keep |
@@ -53,7 +53,7 @@ Each source attribute is classified as one of:
 
 The South German Credit dataset is historical training data.
 
-It must not dictate the shape of a modern NovaCredit application.
+It must not dictate the shape of a modern CaseVerity application.
 
 For example:
 
@@ -79,13 +79,13 @@ is separate from:
 Synthetic CreditApplication
         |
         v
-NovaCredit Workflow
+CaseVerity Workflow
         |
         v
 Risk Service
 ```
 
-The Risk Service is responsible for translating relevant NovaCredit application information into whatever representation the selected risk model requires.
+The Risk Service is responsible for translating relevant CaseVerity application information into whatever representation the selected risk model requires.
 
 ---
 
@@ -101,7 +101,7 @@ It must never be accepted as an input to a runtime risk assessment request.
 
 The dataset represents credit data from the 1970s.
 
-NovaCredit must therefore avoid treating its distributions, categorical values, monetary values, or historical relationships as representative of modern lending populations.
+CaseVerity must therefore avoid treating its distributions, categorical values, monetary values, or historical relationships as representative of modern lending populations.
 
 The dataset exists to demonstrate software integration and ML risk-scoring capabilities, not to create a production lending model.
 

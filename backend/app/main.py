@@ -4,7 +4,7 @@ from app.api.routes.applications import router as applications_router
 
 
 app = FastAPI(
-    title="NovaCredit API",
+    title="CaseVerity API",
     version="0.1.0",
 )
 

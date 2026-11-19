@@ -1,10 +1,10 @@
-# NovaCredit - Initial Data Contracts
+# CaseVerity - Initial Data Contracts
 
 ## Purpose
 
-This document defines the initial internal data contracts used by NovaCredit.
+This document defines the initial internal data contracts used by CaseVerity.
 
-These contracts represent NovaCredit domain concepts independently from:
+These contracts represent CaseVerity domain concepts independently from:
 
 - HTTP transport,
 - database schemas,
@@ -19,7 +19,7 @@ External systems must translate their data into these contracts before interacti
 
 # CreditApplication
 
-Represents a credit application received by NovaCredit.
+Represents a credit application received by CaseVerity.
 
 This is a product-domain contract and must not mirror the South German Credit dataset directly.
 
@@ -57,7 +57,7 @@ This is a product-domain contract and must not mirror the South German Credit da
 
 `applicant_id` is an internal synthetic identifier.
 
-NovaCredit does not store real applicant personally identifiable information in development or demonstration environments.
+CaseVerity does not store real applicant personally identifiable information in development or demonstration environments.
 
 The exact required/optional status and validation constraints of these fields will be defined during implementation.
 
@@ -69,7 +69,7 @@ Represents the normalized feature representation consumed by a risk scoring impl
 
 This contract is intentionally separated from `CreditApplication`.
 
-A Risk Service or adapter is responsible for translating NovaCredit domain information into the representation expected by the selected risk model.
+A Risk Service or adapter is responsible for translating CaseVerity domain information into the representation expected by the selected risk model.
 
 Conceptually:
 
@@ -88,7 +88,7 @@ Risk Model
 
 The initial implementation may use a mock representation.
 
-A future ML implementation may introduce additional transformations, categorical mappings, or source-specific feature preparation without changing the NovaCredit application contract.
+A future ML implementation may introduce additional transformations, categorical mappings, or source-specific feature preparation without changing the CaseVerity application contract.
 
 Sensitive or intentionally excluded source attributes must not be introduced through this contract.
 
@@ -98,7 +98,7 @@ Sensitive or intentionally excluded source attributes must not be introduced thr
 
 Represents the normalized output of the risk assessment capability.
 
-The NovaCredit workflow depends on this contract rather than on a specific model implementation.
+The CaseVerity workflow depends on this contract rather than on a specific model implementation.
 
 ## Fields
 
@@ -152,7 +152,7 @@ Future implementations may introduce retrieval-based policy evaluation without c
 
 # ReviewCase
 
-Represents the operational case that NovaCredit manages throughout the review lifecycle.
+Represents the operational case that CaseVerity manages throughout the review lifecycle.
 
 ## Identity
 
@@ -242,7 +242,7 @@ Domain contracts must not depend on HTTP concepts such as:
 - headers,
 - route parameters.
 
-FastAPI will translate HTTP requests into NovaCredit domain contracts.
+FastAPI will translate HTTP requests into CaseVerity domain contracts.
 
 ---
 
@@ -256,7 +256,7 @@ Persistence implementations are responsible for translating domain objects into 
 
 ## Domain vs External Data
 
-External datasets and providers do not define NovaCredit contracts.
+External datasets and providers do not define CaseVerity contracts.
 
 Adapters translate external representations into internal representations.
 
@@ -264,7 +264,7 @@ Adapters translate external representations into internal representations.
 
 ## Domain vs Machine Learning
 
-The NovaCredit workflow depends on `RiskAssessment`.
+The CaseVerity workflow depends on `RiskAssessment`.
 
 It does not depend on:
 

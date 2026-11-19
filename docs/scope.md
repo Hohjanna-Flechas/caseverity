@@ -1,8 +1,8 @@
-# NovaCredit - Scope and Boundaries
+# CaseVerity - Scope and Boundaries
 
 ## In Scope
 
-NovaCredit will provide a software workflow for preparing synthetic credit applications for human review.
+CaseVerity will provide a software workflow for preparing synthetic credit applications for human review.
 
 The system will support:
 
@@ -21,9 +21,9 @@ Future iterations may introduce AI-assisted analysis, policy retrieval, ML-based
 
 ## System Boundary
 
-NovaCredit is responsible for the lifecycle of a credit review case from application intake through human review and audit recording.
+CaseVerity is responsible for the lifecycle of a credit review case from application intake through human review and audit recording.
 
-NovaCredit is not responsible for:
+CaseVerity is not responsible for:
 
 - originating real loans,
 - transferring money,
@@ -54,7 +54,7 @@ Private client datasets and real applicant information are outside the project s
 
 ## Engineering Boundary
 
-NovaCredit will be designed as a modular full-stack software system.
+CaseVerity will be designed as a modular full-stack software system.
 
 Major concerns should remain independently maintainable, including:
 

@@ -1,4 +1,4 @@
-# NovaCredit - Core Workflow
+# CaseVerity - Core Workflow
 
 ## Primary Actor
 
@@ -8,13 +8,13 @@ The primary actor is a credit operations analyst or reviewer responsible for eva
 
 A successful credit review follows this sequence:
 
-1. A new credit application is submitted to NovaCredit.
+1. A new credit application is submitted to CaseVerity.
 2. The system validates the application data.
 3. A credit review case is created.
 4. The application is sent to the risk assessment capability.
 5. The system receives a structured risk assessment.
 6. Relevant policy checks are evaluated.
-7. NovaCredit prepares a structured case assessment for review.
+7. CaseVerity prepares a structured case assessment for review.
 8. The case is marked as ready for human review.
 9. A reviewer opens the case and examines:
    - applicant information,
@@ -26,7 +26,7 @@ A successful credit review follows this sequence:
     - Approved
     - Rejected
     - More Information Required
-11. NovaCredit records the decision and the responsible reviewer.
+11. CaseVerity records the decision and the responsible reviewer.
 12. The case transitions to its final state.
 13. An audit event is recorded for the decision and relevant state changes.
 
@@ -76,6 +76,6 @@ Audit Trail
 
 Risk assessment is part of the core workflow.
 
-During the first implementation milestone, NovaCredit will use a mock risk assessment implementation behind a stable risk service contract.
+During the first implementation milestone, CaseVerity will use a mock risk assessment implementation behind a stable risk service contract.
 
 This allows the full workflow to be implemented and tested before introducing a real ML-based risk model.

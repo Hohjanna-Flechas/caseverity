@@ -1,8 +1,8 @@
-# NovaCredit - Communication and Deployment Boundaries
+# CaseVerity - Communication and Deployment Boundaries
 
 ## Purpose
 
-This document defines how NovaCredit components communicate and which responsibilities may become independent deployment units.
+This document defines how CaseVerity components communicate and which responsibilities may become independent deployment units.
 
 Deployment boundaries describe runtime isolation.
 
@@ -79,7 +79,7 @@ Responsibilities:
 
 FastAPI is a delivery mechanism.
 
-It does not own NovaCredit business rules.
+It does not own CaseVerity business rules.
 
 ---
 
@@ -98,7 +98,7 @@ Responsibilities may include storing:
 - audit events,
 - selected assessment results.
 
-Persistence stores NovaCredit state but does not define business behavior.
+Persistence stores CaseVerity state but does not define business behavior.
 
 The domain must not depend directly on PostgreSQL-specific representations.
 
@@ -126,7 +126,7 @@ RiskService
 MLRiskService
 ```
 
-The rest of NovaCredit depends on the `RiskAssessment` contract rather than on the underlying model technology.
+The rest of CaseVerity depends on the `RiskAssessment` contract rather than on the underlying model technology.
 
 The risk capability may initially execute inside the backend process.
 
@@ -154,11 +154,11 @@ Anthropic Adapter
 Claude API
 ```
 
-Claude is an external service and is not hosted inside NovaCredit infrastructure.
+Claude is an external service and is not hosted inside CaseVerity infrastructure.
 
 The application must not depend directly on provider-specific response formats.
 
-Provider responses must be translated into NovaCredit-controlled contracts.
+Provider responses must be translated into CaseVerity-controlled contracts.
 
 ---
 
@@ -241,13 +241,13 @@ Failures such as:
 - invalid responses,
 - provider errors,
 
-must be translated into NovaCredit-controlled behavior.
+must be translated into CaseVerity-controlled behavior.
 
 ---
 
 ## Synchronous vs Asynchronous Processing
 
-NovaCredit will begin with synchronous processing where practical.
+CaseVerity will begin with synchronous processing where practical.
 
 A queue, worker system, or asynchronous job architecture will not be introduced until a real need exists.
 
@@ -298,7 +298,7 @@ Docker Compose
 +-- optional future locally hosted services
 ```
 
-External hosted services such as Claude are not containerized by NovaCredit.
+External hosted services such as Claude are not containerized by CaseVerity.
 
 ---
 
@@ -316,7 +316,7 @@ configure .env
 docker compose up
     |
     v
-NovaCredit running
+CaseVerity running
 ```
 
 This represents a target developer experience, not the current implementation state.
@@ -327,7 +327,7 @@ This represents a target developer experience, not the current implementation st
 
 A conceptual module does not automatically require its own deployment unit.
 
-NovaCredit will separate services operationally only when there is a concrete reason such as:
+CaseVerity will separate services operationally only when there is a concrete reason such as:
 
 - independent scaling,
 - different runtime dependencies,

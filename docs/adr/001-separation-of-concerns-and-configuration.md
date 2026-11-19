@@ -6,7 +6,7 @@ Accepted
 
 ## Context
 
-NovaCredit is intended to evolve from a small software project into a modular AI-assisted application containing multiple concerns, including:
+CaseVerity is intended to evolve from a small software project into a modular AI-assisted application containing multiple concerns, including:
 
 - domain logic,
 - workflow orchestration,
@@ -23,13 +23,13 @@ The project must remain maintainable as new capabilities are introduced.
 
 A new scenario should not require duplicating architecture or introducing a new system layer when the existing domain model can support it.
 
-NovaCredit should also allow technical implementations such as databases, AI providers, or risk models to change independently from core business behavior.
+CaseVerity should also allow technical implementations such as databases, AI providers, or risk models to change independently from core business behavior.
 
 ---
 
 ## Decision
 
-NovaCredit will use a modular architecture with explicit separation of concerns.
+CaseVerity will use a modular architecture with explicit separation of concerns.
 
 The primary backend boundaries are:
 
@@ -62,13 +62,13 @@ Core business logic must remain independent from:
 - external datasets,
 - and third-party services.
 
-The domain represents NovaCredit concepts and rules rather than implementation technologies.
+The domain represents CaseVerity concepts and rules rather than implementation technologies.
 
 ---
 
 ## Object-Oriented Design
 
-NovaCredit will use pragmatic object-oriented design.
+CaseVerity will use pragmatic object-oriented design.
 
 OOP will be preferred when modeling:
 
@@ -109,7 +109,7 @@ Simple functions may be used for stateless transformations, calculations, normal
 
 Functions must belong to a clear domain or infrastructure concern.
 
-NovaCredit will avoid global catch-all modules such as:
+CaseVerity will avoid global catch-all modules such as:
 
 ```text
 utils/
@@ -174,7 +174,7 @@ while:
 determining whether a case requires review = domain behavior
 ```
 
-NovaCredit will avoid creating a configuration language that duplicates application logic.
+CaseVerity will avoid creating a configuration language that duplicates application logic.
 
 ---
 
@@ -219,7 +219,7 @@ The application workflow should not know which machine learning library, provide
 
 ## Scalability Principle
 
-NovaCredit will scale through stable domain concepts, composition, configuration, and replaceable implementations rather than scenario-specific architectural layers.
+CaseVerity will scale through stable domain concepts, composition, configuration, and replaceable implementations rather than scenario-specific architectural layers.
 
 The system should not evolve into structures such as:
 
@@ -235,7 +235,7 @@ when those scenarios can be represented through existing concepts and rules.
 
 ## Simplicity Principle
 
-NovaCredit will not introduce abstractions solely for hypothetical future needs.
+CaseVerity will not introduce abstractions solely for hypothetical future needs.
 
 An abstraction should protect:
 

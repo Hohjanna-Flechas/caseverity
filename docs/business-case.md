@@ -1,4 +1,4 @@
-# NovaCredit - Business Case
+# CaseVerity - Business Case
 
 ## Problem
 
@@ -8,11 +8,11 @@ This can create repetitive manual work, inconsistent case preparation, and limit
 
 ## Target User
 
-NovaCredit is designed for credit operations analysts and reviewers who need to evaluate credit applications efficiently while maintaining clear human oversight.
+CaseVerity is designed for credit operations analysts and reviewers who need to evaluate credit applications efficiently while maintaining clear human oversight.
 
 ## Proposed Value
 
-NovaCredit provides a centralized, traceable workflow that prepares credit applications for human review by combining:
+CaseVerity provides a centralized, traceable workflow that prepares credit applications for human review by combining:
 
 - application validation,
 - risk assessment,
@@ -30,7 +30,7 @@ AI and machine learning are components of the system, not the system itself.
 
 ## Out of Scope
 
-NovaCredit will not:
+CaseVerity will not:
 
 - autonomously approve or reject credit applications,
 - use real customer or private client data,
@@ -42,7 +42,7 @@ The project will use publicly licensed datasets and synthetic applicant records.
 
 ## Initial Success Criteria
 
-NovaCredit should be able to:
+CaseVerity should be able to:
 
 1. Receive and validate a credit application through a defined interface.
 2. Process the application through a consistent workflow.

@@ -1,8 +1,8 @@
-# NovaCredit - Module Boundaries
+# CaseVerity - Module Boundaries
 
 ## Purpose
 
-This document defines which NovaCredit architectural boundaries are represented as physical software modules.
+This document defines which CaseVerity architectural boundaries are represented as physical software modules.
 
 The goal is to keep the codebase understandable and modular without introducing unnecessary layers or abstractions.
 
@@ -10,7 +10,7 @@ The goal is to keep the codebase understandable and modular without introducing 
 
 ## Backend Modules
 
-The NovaCredit backend will initially contain four primary modules:
+The CaseVerity backend will initially contain four primary modules:
 
 ```text
 backend/app/
@@ -26,7 +26,7 @@ Each module owns a distinct responsibility.
 
 ## Domain
 
-The `domain` module represents NovaCredit's core business concepts and rules.
+The `domain` module represents CaseVerity's core business concepts and rules.
 
 It may contain:
 
@@ -43,7 +43,7 @@ The domain must remain independent from frameworks, persistence technologies, ex
 
 ## Application
 
-The `application` module coordinates NovaCredit use cases and workflows.
+The `application` module coordinates CaseVerity use cases and workflows.
 
 It may contain:
 
@@ -61,7 +61,7 @@ It must not depend on concrete infrastructure implementations.
 
 ## Infrastructure
 
-The `infrastructure` module contains technical implementations that connect NovaCredit to external systems or runtime technologies.
+The `infrastructure` module contains technical implementations that connect CaseVerity to external systems or runtime technologies.
 
 Examples include:
 
@@ -74,13 +74,13 @@ Examples include:
 
 Infrastructure may implement contracts defined by inner layers.
 
-Infrastructure must not define NovaCredit business behavior.
+Infrastructure must not define CaseVerity business behavior.
 
 ---
 
 ## API
 
-The `api` module exposes NovaCredit capabilities through HTTP.
+The `api` module exposes CaseVerity capabilities through HTTP.
 
 FastAPI will belong to this boundary.
 
@@ -108,7 +108,7 @@ frontend/
 
 It will use React, Vite, and TypeScript.
 
-The frontend communicates with NovaCredit through the API and must not duplicate or own core business rules.
+The frontend communicates with CaseVerity through the API and must not duplicate or own core business rules.
 
 ---
 
@@ -134,7 +134,7 @@ Secrets must not be stored in YAML configuration files.
 
 ## Organization Principle
 
-NovaCredit should prefer organization around domain capabilities rather than global technical buckets.
+CaseVerity should prefer organization around domain capabilities rather than global technical buckets.
 
 Preferred:
 
@@ -186,7 +186,7 @@ Concrete infrastructure must remain replaceable without forcing changes througho
 
 ## Abstraction Principle
 
-NovaCredit will introduce abstractions when they protect a meaningful point of change.
+CaseVerity will introduce abstractions when they protect a meaningful point of change.
 
 Examples:
 

@@ -1,16 +1,16 @@
-# NovaCredit - Data Source
+# CaseVerity - Data Source
 
 ## Purpose
 
-This document defines the external data source used to support NovaCredit's risk assessment capability and establishes how external data is allowed to enter the NovaCredit domain.
+This document defines the external data source used to support CaseVerity's risk assessment capability and establishes how external data is allowed to enter the CaseVerity domain.
 
-The external dataset does not define NovaCredit's internal domain model.
+The external dataset does not define CaseVerity's internal domain model.
 
 ---
 
 ## Selected Dataset
 
-NovaCredit will initially use the **South German Credit** dataset from the UCI Machine Learning Repository.
+CaseVerity will initially use the **South German Credit** dataset from the UCI Machine Learning Repository.
 
 ### Source Information
 
@@ -30,7 +30,7 @@ The dataset contains historical credit records collected between 1973 and 1975.
 
 ## Why This Dataset
 
-The South German Credit dataset was selected because it provides a publicly licensed credit-risk dataset with attributes that map naturally to the type of information handled by NovaCredit.
+The South German Credit dataset was selected because it provides a publicly licensed credit-risk dataset with attributes that map naturally to the type of information handled by CaseVerity.
 
 It also provides a corrected representation of the widely used Statlog German Credit dataset, whose original coding documentation contains known issues.
 
@@ -40,7 +40,7 @@ It is not intended to represent modern lending populations or production lending
 
 ---
 
-## Role Inside NovaCredit
+## Role Inside CaseVerity
 
 The dataset is not the runtime application database.
 
@@ -52,7 +52,7 @@ Its initial role is to support:
 - validation of mapping logic,
 - and creation of realistic synthetic application scenarios.
 
-Runtime NovaCredit applications will use synthetic applicant records.
+Runtime CaseVerity applications will use synthetic applicant records.
 
 The distinction is:
 
@@ -69,7 +69,7 @@ Risk Assessment Capability
 Synthetic Application
       |
       v
-NovaCredit API
+CaseVerity API
       |
       v
 Credit Review Workflow
@@ -81,7 +81,7 @@ Credit Review Workflow
 
 The dataset can be retrieved programmatically from the UCI Machine Learning Repository.
 
-The ingestion implementation will be introduced later and must remain outside the core NovaCredit domain.
+The ingestion implementation will be introduced later and must remain outside the core CaseVerity domain.
 
 Conceptually:
 
@@ -92,7 +92,7 @@ UCI Data Source
 External Data Adapter
       |
       v
-NovaCredit Representation
+CaseVerity Representation
 ```
 
 The rest of the system must not depend directly on UCI-specific column names, encodings, or retrieval mechanisms.
@@ -124,7 +124,7 @@ The dataset includes concepts such as:
 - foreign worker status,
 - and credit risk outcome.
 
-These external fields will not automatically become NovaCredit domain fields.
+These external fields will not automatically become CaseVerity domain fields.
 
 A mapping decision must be made before a source attribute is introduced into the domain.
 
@@ -132,7 +132,7 @@ A mapping decision must be made before a source attribute is introduced into the
 
 ## Mapping Strategy
 
-NovaCredit will use an adapter boundary between external data and internal domain contracts.
+CaseVerity will use an adapter boundary between external data and internal domain contracts.
 
 ```text
 South German Credit Record
@@ -141,15 +141,15 @@ South German Credit Record
 SouthGermanCreditAdapter
           |
           v
-NovaCredit Domain Contract
+CaseVerity Domain Contract
           |
           v
 Risk Assessment Workflow
 ```
 
-This allows NovaCredit to change its external data source without requiring changes throughout the workflow.
+This allows CaseVerity to change its external data source without requiring changes throughout the workflow.
 
-The adapter is responsible for translating source-specific names, categories, and representations into concepts understood by NovaCredit.
+The adapter is responsible for translating source-specific names, categories, and representations into concepts understood by CaseVerity.
 
 ---
 
@@ -157,7 +157,7 @@ The adapter is responsible for translating source-specific names, categories, an
 
 Some attributes in the historical dataset contain demographic or historically contextual information.
 
-NovaCredit will not automatically use every available field as a risk-assessment input.
+CaseVerity will not automatically use every available field as a risk-assessment input.
 
 Attributes must be reviewed for:
 
@@ -173,7 +173,7 @@ Source availability alone is not sufficient justification for using an attribute
 
 ## Data Privacy
 
-NovaCredit will not use private customer datasets or real applicant information.
+CaseVerity will not use private customer datasets or real applicant information.
 
 Development and demonstrations will rely on:
 
@@ -189,8 +189,8 @@ No personally identifiable information from real credit applicants will be store
 
 External data sources are integrations.
 
-They do not own the NovaCredit domain.
+They do not own the CaseVerity domain.
 
-The NovaCredit workflow depends on stable internal contracts, while adapters translate external representations into those contracts.
+The CaseVerity workflow depends on stable internal contracts, while adapters translate external representations into those contracts.
 
 This allows data providers, risk implementations, and other integrations to evolve independently from the core application.

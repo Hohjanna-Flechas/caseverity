@@ -1,8 +1,8 @@
-# NovaCredit - Review Case State Machine
+# CaseVerity - Review Case State Machine
 
 ## Purpose
 
-This document defines the valid lifecycle states of a NovaCredit `ReviewCase`, the transitions allowed between them, and the main failure conditions that may affect workflow execution.
+This document defines the valid lifecycle states of a CaseVerity `ReviewCase`, the transitions allowed between them, and the main failure conditions that may affect workflow execution.
 
 The state machine represents business state.
 
@@ -14,7 +14,7 @@ Infrastructure errors, logs, and audit events do not replace business state.
 
 ### RECEIVED
 
-A credit application has been received by NovaCredit but has not yet completed validation.
+A credit application has been received by CaseVerity but has not yet completed validation.
 
 ### VALIDATED
 
@@ -22,7 +22,7 @@ The application has passed the required structural and business validation check
 
 ### ASSESSING
 
-NovaCredit is preparing the case by executing the required assessment capabilities, such as risk assessment and policy evaluation.
+CaseVerity is preparing the case by executing the required assessment capabilities, such as risk assessment and policy evaluation.
 
 ### READY_FOR_REVIEW
 
@@ -164,7 +164,7 @@ Future requirements may introduce explicit reopening or appeal capabilities, but
 
 Duplicate request detection is not represented as a separate business state.
 
-If NovaCredit receives a duplicate request for an application that already exists, the system should identify the existing application or case and avoid creating a second independent workflow.
+If CaseVerity receives a duplicate request for an application that already exists, the system should identify the existing application or case and avoid creating a second independent workflow.
 
 A corresponding audit event may be recorded:
 
@@ -181,7 +181,7 @@ The idempotency strategy will be defined during implementation.
 1. A failure must not leave a case in an unknown state.
 2. Recoverable failures should preserve enough context to resume safely.
 3. Retrying a workflow must not duplicate previously completed operations.
-4. External service failures must be translated into NovaCredit-controlled failure behavior.
+4. External service failures must be translated into CaseVerity-controlled failure behavior.
 5. Terminal decisions cannot be produced by automated recovery.
 6. Failure details used for debugging must remain separate from reviewer-facing business state.
 
@@ -219,4 +219,4 @@ Domain State Rules
     +------ invalid ----> domain error
 ```
 
-This ensures that business state remains controlled by the NovaCredit domain rather than by presentation, transport, persistence, AI, or external services.
+This ensures that business state remains controlled by the CaseVerity domain rather than by presentation, transport, persistence, AI, or external services.
