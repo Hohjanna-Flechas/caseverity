@@ -34,6 +34,14 @@ class RiskAssessmentResponse(BaseModel):
     assessed_at: datetime
 
 
+class ReviewCaseResponse(BaseModel):
+    case_id: str
+    status: str
+    created_at: datetime
+    updated_at: datetime
+
+
 class SubmitApplicationResponse(BaseModel):
     application_id: str
     risk_assessment: RiskAssessmentResponse
+    review_case: ReviewCaseResponse

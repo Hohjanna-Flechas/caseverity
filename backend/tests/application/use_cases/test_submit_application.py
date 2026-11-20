@@ -12,6 +12,11 @@ from app.infrastructure.persistence.in_memory import (
     InMemoryApplicationRepository,
 )
 
+from app.domain.review.models import CaseStatus
+from app.infrastructure.persistence.in_memory_review_cases import (
+    InMemoryReviewCaseRepository,
+)
+
 
 class FakeRiskService:
     def __init__(self) -> None:
@@ -54,38 +59,63 @@ def test_submit_application_uses_risk_service_and_returns_assessment() -> None:
     application = build_credit_application()
 
     risk_service = FakeRiskService()
-    repository = InMemoryApplicationRepository()
+    application_repository = InMemoryApplicationRepository()
+    review_case_repository = InMemoryReviewCaseRepository()
+    processed_at = datetime.now(timezone.utc)
 
     use_case = SubmitApplication(
         risk_service=risk_service,
-        application_repository=repository,
+        application_repository=application_repository,
+        review_case_repository=review_case_repository,
     )
 
-    result = use_case.execute(application)
+    result = use_case.execute(
+        application,
+        processed_at=processed_at,
+    )
 
     assert risk_service.received_application is application
+
     assert result.application is application
     assert result.risk_assessment.application_id == "APP-0001"
     assert result.risk_assessment.risk_score == 0.42
     assert result.risk_assessment.risk_level is RiskLevel.LOW
     assert result.risk_assessment.assessment_source == "fake"
 
+    assert result.review_case.application_id == "APP-0001"
+    assert result.review_case.status is CaseStatus.READY_FOR_REVIEW
+
+    stored_case = review_case_repository.get_by_application_id(
+        "APP-0001"
+    )
+
+    assert stored_case is result.review_case
+
 
 def test_submit_application_rejects_duplicate_application() -> None:
     application = build_credit_application()
 
     risk_service = FakeRiskService()
-    repository = InMemoryApplicationRepository()
+    application_repository = InMemoryApplicationRepository()
+    review_case_repository = InMemoryReviewCaseRepository()
+    processed_at = datetime.now(timezone.utc)
 
     use_case = SubmitApplication(
         risk_service=risk_service,
-        application_repository=repository,
+        application_repository=application_repository,
+        review_case_repository=review_case_repository,
     )
 
-    use_case.execute(application)
+    use_case.execute(
+        application,
+        processed_at=processed_at,
+    )
 
     with pytest.raises(
         DuplicateApplicationError,
         match="application APP-0001 already exists",
     ):
-        use_case.execute(application)
+        use_case.execute(
+            application,
+            processed_at=processed_at,
+        )

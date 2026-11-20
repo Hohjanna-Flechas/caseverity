@@ -1,7 +1,10 @@
+from datetime import datetime, timezone
+
 from fastapi import APIRouter, HTTPException, status
 
 from app.api.schemas.applications import (
     CreditApplicationRequest,
+    ReviewCaseResponse,
     RiskAssessmentResponse,
     SubmitApplicationResponse,
 )
@@ -11,7 +14,10 @@ from app.application.use_cases.submit_application import (
 )
 from app.domain.application.models import CreditApplication
 from app.infrastructure.persistence.in_memory import (
-    InMemoryApplicationRepository
+    InMemoryApplicationRepository,
+)
+from app.infrastructure.persistence.in_memory_review_cases import (
+    InMemoryReviewCaseRepository,
 )
 from app.infrastructure.risk.mock import MockRiskService
 
@@ -19,6 +25,7 @@ from app.infrastructure.risk.mock import MockRiskService
 router = APIRouter(prefix="/applications", tags=["applications"])
 
 application_repository = InMemoryApplicationRepository()
+review_case_repository = InMemoryReviewCaseRepository()
 
 
 @router.post("", response_model=SubmitApplicationResponse)
@@ -46,10 +53,14 @@ def submit_application(
     use_case = SubmitApplication(
         risk_service=MockRiskService(),
         application_repository=application_repository,
+        review_case_repository=review_case_repository,
     )
 
     try:
-        result = use_case.execute(application)
+        result = use_case.execute(
+            application,
+            processed_at=datetime.now(timezone.utc),
+        )
     except DuplicateApplicationError as exc:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
@@ -64,5 +75,11 @@ def submit_application(
             risk_factors=list(result.risk_assessment.risk_factors),
             assessment_source=result.risk_assessment.assessment_source,
             assessed_at=result.risk_assessment.assessed_at,
+        ),
+        review_case=ReviewCaseResponse(
+            case_id=result.review_case.case_id,
+            status=result.review_case.status.value,
+            created_at=result.review_case.created_at,
+            updated_at=result.review_case.updated_at,
         ),
     )
