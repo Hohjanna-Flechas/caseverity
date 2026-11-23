@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: caseverity-postgres
+    environment:
+      POSTGRES_USER: caseverity
+      POSTGRES_PASSWORD: caseverity_dev
+      POSTGRES_DB: caseverity
+    ports:
+      - "5432:5432"
+    volumes:
+      - caseverity_postgres_data:/var/lib/postgresql
+
+volumes:
+  caseverity_postgres_data:

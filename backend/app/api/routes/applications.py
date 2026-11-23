@@ -1,36 +1,39 @@
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 
+from app.api.dependencies.repositories import (
+    get_application_repository,
+    get_review_case_repository,
+)
 from app.api.schemas.applications import (
     CreditApplicationRequest,
     ReviewCaseResponse,
     RiskAssessmentResponse,
     SubmitApplicationResponse,
 )
+from app.application.repositories.applications import ApplicationRepository
+from app.application.repositories.review_cases import ReviewCaseRepository
 from app.application.use_cases.submit_application import (
     DuplicateApplicationError,
     SubmitApplication,
 )
 from app.domain.application.models import CreditApplication
-from app.infrastructure.persistence.in_memory import (
-    InMemoryApplicationRepository,
-)
-from app.infrastructure.persistence.in_memory_review_cases import (
-    InMemoryReviewCaseRepository,
-)
 from app.infrastructure.risk.mock import MockRiskService
 
 
 router = APIRouter(prefix="/applications", tags=["applications"])
 
-application_repository = InMemoryApplicationRepository()
-review_case_repository = InMemoryReviewCaseRepository()
-
 
 @router.post("", response_model=SubmitApplicationResponse)
 def submit_application(
     payload: CreditApplicationRequest,
+    application_repository: ApplicationRepository = Depends(
+        get_application_repository
+    ),
+    review_case_repository: ReviewCaseRepository = Depends(
+        get_review_case_repository
+    ),
 ) -> SubmitApplicationResponse:
     application = CreditApplication(
         application_id=payload.application_id,

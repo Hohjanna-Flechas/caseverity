@@ -1,9 +1,44 @@
+import pytest
 from fastapi.testclient import TestClient
+from collections.abc import Iterator
 
+from app.api.dependencies.repositories import (
+    get_application_repository,
+    get_review_case_repository,
+)
+from app.infrastructure.persistence.in_memory import (
+    InMemoryApplicationRepository,
+)
+from app.infrastructure.persistence.in_memory_review_cases import (
+    InMemoryReviewCaseRepository,
+)
 from app.main import app
 
 
 client = TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def override_repositories() -> Iterator[None]:
+    application_repository = InMemoryApplicationRepository()
+    review_case_repository = InMemoryReviewCaseRepository()
+
+    def override_application_repository() -> InMemoryApplicationRepository:
+        return application_repository
+
+    def override_review_case_repository() -> InMemoryReviewCaseRepository:
+        return review_case_repository
+
+    app.dependency_overrides[get_application_repository] = (
+        override_application_repository
+    )
+    app.dependency_overrides[get_review_case_repository] = (
+        override_review_case_repository
+    )
+
+    yield
+
+    app.dependency_overrides.clear()
 
 
 def build_application_payload() -> dict[str, object]:
@@ -55,7 +90,11 @@ def test_submit_application_rejects_invalid_requested_amount() -> None:
 
     body = response.json()
 
-    assert body["detail"][0]["loc"] == ["body", "requested_amount"]
+    assert body["detail"][0]["loc"] == [
+        "body",
+        "requested_amount",
+    ]
+
 
 def test_submit_application_returns_conflict_for_duplicate() -> None:
     payload = build_application_payload()
